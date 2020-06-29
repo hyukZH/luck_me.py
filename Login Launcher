@@ -1,0 +1,21 @@
+username = input('Enter your username:')
+password = input('Enter your password:')
+with open('list_of_info', mode = 'w', encoding = 'utf-8') as f:
+    f.write('{}\n{}'.format(username,password))
+print('Congradulation, the registration is successful')
+lis = []
+i = 0
+while i < 3:
+    usn = input('Enter your username')
+    psw = input('Enter your password')
+    with open('list_of_info', mode = 'r+', encoding = 'utf-8') as f1:
+        for line in f1:
+                lis.append(line)
+    if usn == lis[0].strip() and pwd == lis[1].strip()
+        print('successful')
+        break
+    else:
+        print('Wrong!!!')
+    i += 1
+
+    
