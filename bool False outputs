@@ -1,0 +1,6 @@
+bool False
+int   0
+str   ''and""
+list  []
+tuple ()
+dict  {}
