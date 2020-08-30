@@ -1,0 +1,72 @@
+column_dic = {'id':0,'name':1,'age':2,'phone':3,'job':4}
+def filter_handler(operate,con):            #'>',"age>22'
+    '''
+    param operate: the operation requesed by the user is >/</=/like
+    param con: user input condition: where
+    return: a list of all selected rows, where each row is a list
+    
+    '''
+    selected_lst = []     # selected list
+    col,val = con.split(operate)      #age,22='>','age>22'
+    col = col.strip()     #age
+    val = val.strip()     #22 condition
+    judge = 'int(line_lst[column_dic[col]]) %s int(val)'%operate if operate == '<' or operate == '>' else 'line_lst[column_dic[col]] %s val'%operate
+    f = open('userdetail', encoding='utf-8')
+    for line in f:
+        line_lst = line.strip().split(',')    #[id,name,age,phone,job]
+        if eval(judge):
+            selected_lst.append(line_lst)
+    f.close()
+    return selected_lst
+    
+def get_selected_line(con):
+    '''
+    Get all the rows you want to find, and store each row as a list item in selected_lst
+    return: Stores a list of eligible rows
+    '''
+    if '>' in con:
+        selected_lst = filter_handler('>',con)
+    elif '<' in con:
+        selected_lst = filter_handler('<',con)
+    elif '=' in con:
+        selected_lst = filter_handler('==',con.replace('=','=='))
+    elif 'like' in con:
+        selected_lst = filter_handler('in',con)
+    return selected_lst
+
+def get_show_list(col_condition):
+    '''
+    Get the column name to be displayed
+    return: Dictionary of column names
+    '''
+    col_info_lst = col_condition.strip().split('select')        #['name,age']
+    col_info_lst = [col_info_item for col_info_item in col_info_lst if col_info_item.strip()]
+    if col_info_lst:        #['name,age']
+        col_info = col_info_lst[0].strip()  #'name,age'
+        if'*' == col_info:
+            return column_dic.keys()        #['name','age','id','job','phone']
+        elif col_info:
+        ret = col_info.split(',')           #['name','age']
+        return [item.strip() for item in ret]       #['name','age']
+    else: print(col_info)
+    
+def show(selected_lst,show_lst):
+    '''
+    
+    
+    
+    '''
+    for selected_item in selected_lst:
+        for col in show_lst:
+            print(selected_item[colum_dic[col]],end' ')
+        print()
+
+ret = condition.split('where')      #receive user instruction
+#analysis user instruction
+con = ret[1].strip()                #'age>22'
+#analyze and filter what user want to find based on select condition
+show_lst = get_show_lst(ret[0])     #'[name,age]' = 'select name,age'
+#analyze and filter what user want to find based on where condition
+selected_lst = get_selected_line(con) # all eligible content is stored in the selected_lst
+#display all eligible content according to user need
+show(selected_lst,show_lst)       #display
